@@ -1,6 +1,11 @@
+import {  useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard.jsx';
-
-export default function SearchPage({ query, results, onSelectProduct }) {
+import { products } from '../data/products.js';
+export default function SearchPage() {
+ 
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get("query").trim() || ""
+  const results = query ? products.filter( p => p.name.toLowerCase().includes(query.toLowerCase())  ):[]
   return (
     <section className="page-shell">
       <p className="page-eyebrow">Поиск</p>
@@ -12,7 +17,7 @@ export default function SearchPage({ query, results, onSelectProduct }) {
       <div className="product-grid">
         {results.length > 0 ? (
           results.map(product => (
-            <ProductCard key={product.id} product={product} onSelect={onSelectProduct} />
+            <ProductCard key={product.id} product={product} />
           ))
         ) : (
           <div className="empty-note" style={{ gridColumn: '1 / -1' }}>

@@ -1,33 +1,37 @@
-export default function Header({ currentPage, onNavigate, onSearch }) {
-  function handleSearchKeyDown(e) {
-    if (e.key === 'Enter' && e.target.value.trim()) {
-      onSearch(e.target.value.trim());
-      e.target.value = '';
-    }
+import { Link, NavLink, useNavigate } from "react-router-dom";
+
+export default function Header() {
+
+
+  const navigate = useNavigate()
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    navigate("/search?query="+encodeURIComponent(e.target.query.value.trim()))
   }
 
   return (
     <header className="site-header">
       <div className="header-inner">
-        <a
-          href="/"
+        <Link
+          to="/"
           className="brand"
-          onClick={e => { e.preventDefault(); onNavigate('home'); }}
+
         >
           <div className="brand-mark">t</div>
           <div className="brand-name">Terra</div>
-        </a>
+        </Link>
 
         <nav className="main-nav">
-          <NavItem label="Главная" page="home" currentPage={currentPage} onNavigate={onNavigate} />
-          <NavItem label="Каталог" page="catalog" currentPage={currentPage} onNavigate={onNavigate} />
-          <NavItem label="О нас" page="about" currentPage={currentPage} onNavigate={onNavigate} />
-          <NavItem label="Контакты" page="contacts" currentPage={currentPage} onNavigate={onNavigate} />
+          <NavLink className={'nav-link'} to="/">Главная</NavLink>
+          <NavLink className={'nav-link'} to="/catalog">Каталог</NavLink>
+          <NavLink className={'nav-link'} to="/about">О нас</NavLink>
+          <NavLink className={'nav-link'} to="/contacts">Контакты</NavLink>
+
         </nav>
 
-        <div className="header-search">
-          <input type="text" placeholder="Найти растение..." onKeyDown={handleSearchKeyDown} />
-        </div>
+        <form onSubmit={handleSubmit} className="header-search">
+          <input name="query" type="text" placeholder="Найти растение..." />
+        </form>
       </div>
     </header>
   );

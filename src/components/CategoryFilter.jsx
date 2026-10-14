@@ -1,4 +1,10 @@
-export default function CategoryFilter({ categories, activeCategory, onSelect }) {
+import { useSearchParams } from "react-router-dom";
+import { categories } from "../data/products";
+
+export default function CategoryFilter() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeCategory = searchParams.get("category") || ""
+  // const onSelect
   return (
     <div className="filter-row">
       {categories.map(cat => (
@@ -6,7 +12,7 @@ export default function CategoryFilter({ categories, activeCategory, onSelect })
           key={cat.id || 'all'}
           type="button"
           className={'filter-chip' + (cat.id === activeCategory ? ' active' : '')}
-          onClick={() => onSelect(cat.id)}
+          onClick={() => setSearchParams(cat.id ? {category: cat.id} : "")}
         >
           {cat.label}
         </button>
