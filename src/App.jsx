@@ -25,7 +25,7 @@ export default function App() {
           <Route path="catalog" element={<CatalogPage />} />
           <Route path="contacts" element={<ContactsPage />} />
           <Route path="catalog/:id" element={<ProductPage />} />
-          <Route path="" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>
 
